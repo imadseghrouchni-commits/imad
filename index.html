@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Imad Seghrouchni | Luxury & Defence</title>
+    <style>
+        /* --- IMPORT FONTS (Optionnel mais recommandé pour un look moderne) --- */
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&display=swap');
+
+        /* --- RESET & BASE --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #0a0a0a; /* Noir plus profond */
+            color: #f0f0f0;
+            font-family: 'Montserrat', sans-serif; /* Utilisation de la nouvelle police */
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* --- COULEURS & VARIABLES --- */
+        :root {
+            --gold: #d4af37;
+            --gold-gradient: linear-gradient(45deg, #bf9b30, #e6c96a);
+            --dark-bg: #0a0a0a;
+            --card-overlay: rgba(0,0,0,0.6);
+        }
+
+        /* --- TYPOGRAPHY & LOGOS --- */
+        h1, h2, h3 {
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+
+        .text-gold {
+            color: var(--gold);
+            /* Effet de dégradé sur le texte doré */
+            background: var(--gold-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 700;
+        }
+
+        /* Placeholder pour Logo Principal (Header) */
+        .main-logo-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+        
+        .logo-symbol {
+            width: 40px;
+            height: 40px;
+            border: 2px solid var(--gold);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: var(--gold);
+            font-size: 1.2rem;
+            transform: rotate(45deg); /* Style moderne */
+        }
+        .logo-symbol span { transform: rotate(-45deg); } /* Redresser le texte */
+
+        /* --- ANIMATIONS CSS (Keyframes) --- */
+        /* Animation d'entrée vers le haut */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Animation subtile du fond */
+        @keyframes subtleZoom {
+            0% { background-size: 100% auto; }
+            50% { background-size: 105% auto; }
+            100% { background-size: 100% auto; }
+        }
+
+        /* Classes utilitaires pour l'animation JS */
+        .hidden-element {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s ease-out;
+        }
+        .hidden-element.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- HEADER --- */
+        header {
+            padding: 1.5rem;
+            position: fixed; /* Fixé en haut lors du scroll */
+            width: 100%;
+            z-index: 100;
+            background: rgba(10, 10, 10, 0.8); /* Fond semi-transparent */
+            backdrop-filter: blur(10px); /* Effet de flou moderne */
+            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+            transition: 0.3s;
+        }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            height: 90vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            /* Fond avec un léger dégradé et animation */
+            background: radial-gradient(circle at center, #1a1a1a 0%, #000000 100%);
+            text-align: center;
+            padding: 20px;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            /* Applique l'animation d'entrée au chargement */
+            animation: fadeInUp 1.2s ease-out;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            line-height: 1.1;
+        }
+
+        .hero p.tagline {
+            font-size: 1.3rem;
+            color: #ccc;
+            margin-bottom: 2rem;
+            letter-spacing: 5px;
+        }
+
+        /* Décoration ligne dorée */
+        .gold-divider {
+            height: 3px;
+            width: 80px;
+            background: var(--gold-gradient);
+            margin: 20px auto;
+            border-radius: 2px;
+        }
+
+
+        /* --- ABOUT SECTION --- */
+        .about {
+            padding: 6rem 2rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #111;
+            position: relative;
+        }
+
+        .about-container {
+            max-width: 900px;
+            display: flex;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        /* Ligne verticale décorative animée */
+        .about-line {
+            width: 4px;
+            height: 150px;
+            background: var(--gold-gradient);
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.5);
+        }
+
+        .about-text h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--gold);
+        }
+
+        .about-text p {
+            color: #aaa;
+            line-height: 1.8;
+            font-size: 1.1rem;
+        }
+
+
+        /* --- SPLIT BUSINESS SECTION (MODERNISÉE) --- */
+        .businesses {
+            display: flex;
+            flex-wrap: wrap;
+            height: 70vh; /* Hauteur fixe pour l'effet split */
+            min-height: 500px;
+        }
+
+        .biz-card {
+            flex: 1; /* Les deux prennent 50% au départ */
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 3rem;
+            transition: all 0.6s cubic-bezier(0.25, 0.8, 0.25, 1); /* Transition très fluide */
+            overflow: hidden;
+            border-right: 1px solid rgba(212, 175, 55, 0.1);
+        }
+
+        /* Overlay sombre pour lisibilité du texte */
+        .biz-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--card-overlay);
+            z-index: 1;
+            transition: 0.6s;
+        }
+
+        /* Images de fond (Utilisez des images haute qualité ici) */
+        .car-bg {
+            background: url('https://images.unsplash.com/photo-1610063726258-47d174208092?q=80&w=1974&auto=format&fit=crop') center/cover no-repeat;
+        }
+
+        .gun-bg {
+            background: url('https://images.unsplash.com/photo-1580843360317-0298340d0349?q=80&w=2070&auto=format&fit=crop') center/cover no-repeat;
+        }
+
+        /* EFFET DE SURVOL SPLIT SCREEN */
+        .biz-card:hover {
+            flex: 1.5; /* Agrandissement au survol */
+        }
+
+        .biz-card:hover::before {
+            background: rgba(0,0,0,0.4); /* Éclaircit l'overlay au survol */
+        }
+
+        /* Contenu interne des cartes */
+        .biz-content {
+            z-index: 2;
+            text-align: center;
+            /* Petit effet de glissement du contenu au survol */
+            transform: translateY(20px);
+            transition: 0.6s;
+        }
+
+        .biz-card:hover .biz-content {
+            transform: translateY(0);
+        }
+
+        /* Fake Logo pour les sections */
+        .section-icon {
+            font-size: 3rem;
+            color: var(--gold);
+            margin-bottom: 1rem;
+            opacity: 0.8;
+        }
+
+        .biz-content h3 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .biz-content p {
+            margin-bottom: 2.5rem;
+            max-width: 450px;
+            font-weight: 300;
+        }
+
+        /* BOUTONS MODERNES ANIMÉS */
+        .btn-modern {
+            position: relative;
+            padding: 15px 50px;
+            border: 2px solid var(--gold);
+            color: var(--gold);
+            text-transform: uppercase;
+            font-weight: bold;
+            letter-spacing: 2px;
+            cursor: pointer;
+            overflow: hidden;
+            transition: 0.4s;
+            background: transparent;
+            z-index: 2;
+        }
+
+        /* Effet de remplissage au survol */
+        .btn-modern::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: var(--gold-gradient);
+            transition: 0.4s ease-in-out;
+            z-index: -1;
+        }
+
+        .btn-modern:hover {
+            color: #000;
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
+        }
+
+        .btn-modern:hover::before {
+            left: 0;
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            padding: 3rem 2rem;
+            text-align: center;
+            background: #050505;
+            color: #777;
+            border-top: 1px solid #1a1a1a;
+        }
+
+        /* --- RESPONSIVE MOBILE --- */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5rem; }
+            .hero p.tagline { font-size: 1rem; }
+            .about-container { flex-direction: column; gap: 1rem; }
+            .about-line { width: 80px; height: 4px; margin-bottom: 20px; }
+            .businesses { flex-direction: column; height: auto; }
+            .biz-card { height: 50vh; border-right: none; border-bottom: 1px solid rgba(212, 175, 55, 0.1);}
+            .biz-card:hover { flex: 1; } /* Désactive l'effet split sur mobile */
+            .biz-content h3 { font-size: 2rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="main-logo-container">
+            <div class="logo-symbol"><span>IS</span></div>
+            <div style="font-size: 1.2rem; letter-spacing: 2px;">IMAD <span class="text-gold">SEGHROUCHNI</span></div>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1>L'Excellence <br> sans <span class="text-gold">compromis</span></h1>
+            <div class="gold-divider"></div>
+            <p class="tagline">AUTOMOBILE DE PRESTIGE & DÉFENSE RÉGLEMENTÉE</p>
+        </div>
+    </section>
+
+    <section class="about">
+        <div class="about-container">
+            <div class="about-line hidden-element"></div>
+            <div class="about-text hidden-element">
+                <h2>À Propos de <span class="text-gold">Mr. Seghrouchni</span></h2>
+                <p>
+                    Opérant à l'intersection du luxe et de la sécurité technique, Imad Seghrouchni dirige deux pôles d'activités exigeants.
+                    Sa vision repose sur une rigueur absolue, offrant une clientèle exclusive l'accès à des véhicules d'exception et une expertise certifiée en matière d'armurerie. 
+                    Deux mondes, une seule exigence : la perfection.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section class="businesses">
+        
+        <div class="biz-card car-bg">
+            <div class="biz-content hidden-element">
+                <div class="section-icon" style="border: 2px solid var(--gold); width: 60px; height: 60px; border-radius: 50%; display:flex; align-items:center; justify-content:center; margin: 0 auto 20px;">AUTO</div>
+                
+                <h3>Motors</h3>
+                <p>Performance pure et design inégalé. Accédez à notre collection privée de supercars.</p>
+                <button onclick="window.location.href='#lien-site-voiture'" class="btn-modern">Showroom</button>
+            </div>
+        </div>
+
+        <div class="biz-card gun-bg">
+            <div class="biz-content hidden-element" style="transition-delay: 0.2s;"> <div class="section-icon" style="border: 2px solid var(--gold); width: 60px; height: 60px; display:flex; align-items:center; justify-content:center; margin: 0 auto 20px; transform: rotate(45deg);"><span style="transform: rotate(-45deg);">ARM</span></div>
+
+                <h3>Defense</h3>
+                <p>Expertise technique, précision et conformité. Équipements pour professionnels et tireurs sportifs.</p>
+                 <button onclick="window.location.href='#lien-site-armes'" class="btn-modern">Catalogue</button>
+            </div>
+        </div>
+
+    </section>
+
+    <footer>
+        <div class="main-logo-container" style="margin-bottom: 20px; opacity: 0.5; transform: scale(0.8);">
+            <div class="logo-symbol"><span>IS</span></div>
+        </div>
+        <p>&copy; 2024 Imad Seghrouchni Group. Tous droits réservés.</p>
+        <p style="margin-top:10px; font-size: 0.8rem; opacity: 0.6;">Mentions légales & Réglementations applicables.</p>
+    </footer>
+
+
+    <script>
+        // On attend que la page soit chargée
+        document.addEventListener("DOMContentLoaded", function() {
+            
+            // Sélectionne tous les éléments qu'on veut animer (ceux avec la classe .hidden-element)
+            const hiddenElements = document.querySelectorAll('.hidden-element');
+
+            // Création de l'observateur (Intersection Observer)
+            // Il surveille quand un élément entre dans l'écran
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    // Si l'élément est visible dans la fenêtre
+                    if (entry.isIntersecting) {
+                        // On ajoute la classe .visible qui déclenche la transition CSS
+                        entry.target.classList.add('visible');
+                        // Optionnel : on arrête d'observer une fois animé pour ne le faire qu'une fois
+                        // observer.unobserve(entry.target); 
+                    }
+                });
+            }, {
+                threshold: 0.2 // Déclenche l'animation quand 20% de l'élément est visible
+            });
+
+            // On applique l'observateur à chaque élément caché
+            hiddenElements.forEach((el) => observer.observe(el));
+        });
+    </script>
+
+</body>
+</html>
